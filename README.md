@@ -1,22 +1,27 @@
 # Thermal data viewer
-The purpose of this project is to visualize thermal data based on satellite images. This is a learning project to understand how we can use real data and display it on a front-end map. 
 
-This project uses technologies like:
-- React, Typescript.
-- FastAPI, Python.
-- Data handling libraries, like numpy, matplotlib and rasterio with Python.
+A full-stack geospatial web application designed to visualize thermal data based on satellite images. This project transforms raw Landsat 8-9 Band 10 (TIRS) GeoTiff data into heatmaps rendered over a modern front-end map interface.
+
+This project was built to explore real-world data processing, geospatial coordinate mapping and to see what full-stack data handling would look like in the real world.
+
+Tech Stack:
+* **Frontend**: React, Typescript, Vite, Leaflet
+* **Backend**: Python, FastAPI, Uvicorn
+* **Data processing**: Numpy, Matplotlib, Rasterio
 
 ## How to use
 
 ### Fetching satellite data from EarthExplorer
 
-The first step is to download data from [USGS EarthExplorer](https://earthexplorer.usgs.gov/). There is also a sample image called LC08_L1TP_107035_20150806_20200908_02_T1_B10.tif, which you can use to test the application out. If you don't want to download a new satellite image set, you can [skip to the next step](#converting-the-image-for-usage).
+To test the application, you can use the provided sample file `LC08_L1TP_107035_20150806_20200908_02_T1_B10.tif`. If you don't want to download a new satellite image set, you can [skip to the next step](#converting-the-image-for-usage). 
 
-You need to make a new account to the site. To search for an specific area, the easy way would be to use area tool to select an area with a polygon or a circle. Just select the points you want, and press the "Data Sets" to search for data for that area.
+To fetch new data, follow these steps:
 
+The first step is to download data from [USGS EarthExplorer](https://earthexplorer.usgs.gov/). You need to make a new account to the site. 
+
+To search for an specific area, the easy way would be to use area tool to select an area with a polygon or a circle. Just select the points you want, and press the "Data Sets" to search for data for that area.
 
 ![Data search](Images/search.png)
-
 
 > Note: The satellite image might not be exactly in the exact area but it shows the approximate area.
 
@@ -39,7 +44,7 @@ To download the image, press the button next to it with the little green arrow p
 
 After extracting, you see a bunch of files with different bands but for this project (currently) we are using the Band 10. **The file name should end in _T1_B10.tif**
 
-> Note: The image is in black and white before converting, so don't panic.
+The resulting image should look black and white. Each pixel contains data. The lighter the pixel, the more heat it contains. This data can be used to construct a heat map for the area.
 
 ### Converting the image for usage
 
@@ -79,14 +84,18 @@ Open the thermalconverter.py file inside the ImageRadianceConvert/ folder. Set t
 
 ### Step 3: Would be to run the converter
 
-Run the converter. Here it kind of fails because the resulting map generates in the wrong place.
+1. Run the converter.
 
-This is why:
-1. The converter is hard coded to work in a spesific coordinate in Tokio.
-2. The maps need to be converted in a specific way, so that they work correctly in the front-end application.
-3. The idea is that the converter should work for all coordinates but it is currently development, **thus the pilot phase**
+```bash
+python thermalconverter.py
+```
 
 Move the generated npy file to backend/data_thermal.
+
+**Current pilot phase roadmap:**
+
+The converter is currently optimized for a specific bounding box coordinate set in Tokyo. Standardizing the pipeline to dynamically parse and re-project any global coordinate system (GeoTIFF CRS transformation) is currently under active development.
+
 
 ## Starting the application
 
@@ -126,11 +135,16 @@ This should start the application on http://localhost:5173/
 
 Open up the front-end running on http://localhost:5173/
 
-The application is still a little data intensive and it might take a while to load. This is a thing that needs to be made better, too.
-
-If you used the original tokio_celcius.npy file (or you used the original .tif file), you should see a thermal map that was generated using the satellite image. It might not work for other images (in development).
+If you used the original tokio_celcius.npy file (or you used the original .tif file), you should see a thermal map that was generated using the satellite image.
 
 ![Thermal image generated on top of Tokio](Images/applicationpreview.png)
+
+## Roadmap and upcoming optimizations
+
+This project is under active development. Future goals include:
+* **Dynamic coordinate reprojection**: Implementing automatic coordinate conversion to support uploads from any global coordinates.
+* **Performance optimization**: Converting large JSON/Matrix HTTP payloads into compressed tile layers to drastically reduce front-end load times and memory consumption.
+* **Dockerization**: Adding a `docker-compose.yml` file to spin up the entire local environment with a single command.
 
 ## Contributing
 
