@@ -6,7 +6,7 @@ import time
 import matplotlib.pyplot as plt
 
 start_time = time.time()
-thermal_image_path = "E:\- Programming\Python FastAPI, React projects\Thermal-data-viewer\ImageRadianceConvert\LC08_L1TP_107035_20150806_20200908_02_T1_B10.TIF"
+thermal_image_path = "C:\\Users\\samuk\\Documents\\Ohjelmointi\\Web\\Thermal-data-viewer\\ImageRadianceConvert\\LC08_L1TP_107035_20150806_20200908_02_T1_B10.TIF"
 
 # --- SÄÄDÄ NÄITÄ ARVOJA VAPAASTI ---
 WINDOW_WIDTH = 250 
