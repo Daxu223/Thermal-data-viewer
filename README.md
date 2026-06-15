@@ -79,7 +79,7 @@ Open the thermalconverter.py file inside the ImageRadianceConvert/ folder. Set t
 
 ### Step 3: Would be to run the converter
 
-Run the converter. Here you will notice that it won't probably work. 
+Run the converter. Here it kind of fails because the resulting map generates in the wrong place.
 
 This is why:
 1. The converter is hard coded to work in a spesific coordinate in Tokio.
@@ -90,6 +90,8 @@ Move the generated npy file to backend/data_thermal.
 
 ## Starting the application
 
+### Backend
+
 Navigate to Application/backend/, where you will find a FastAPI application.
 
 Run this in a separate terminal using the command
@@ -98,5 +100,38 @@ Run this in a separate terminal using the command
 uvicorn main:app --reload
 ```
 
+This should start the application on http://127.0.0.1:8000
 
+### Frontend
 
+Navigate to Application/frontend/thermal-map, where you will find a React application.
+
+Install the required packages with the command
+
+```bash
+npm install
+```
+
+Run this in a separate terminal using the command
+
+```bash
+npm run dev
+```
+
+This should start the application on http://localhost:5173/
+
+> Note: Both frontend and backend applications have to be running at the same time.
+
+## Testing the application
+
+Open up the front-end running on http://localhost:5173/
+
+The application is still a little data intensive and it might take a while to load. This is a thing that needs to be made better, too.
+
+If you used the original tokio_celcius.npy file (or you used the original .tif file), you should see a thermal map that was generated using the satellite image. It might not work for other images (in development).
+
+![Thermal image generated on top of Tokio](Images/applicationpreview.png)
+
+## Contributing
+
+If you want to contribute, feel free to fork or add pull requests.
